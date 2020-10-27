@@ -1,6 +1,10 @@
+/**
+ * Andrew Curry
+ */
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +18,13 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
+		String ans = "";
 		
-		return "";
+		for (int i = string.length() - 1; i >= 0; i--) {
+			ans = ans + string.charAt(i);
+		}
+		
+		return ans;
 	}
 
 	/**
@@ -27,8 +36,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String ans = "";
+		
+		String[] tokens = phrase.split(" |, |-");
+		
+		for (String t : tokens) {
+			ans = ans + Character.toUpperCase(t.charAt(0));
+		}
+		
+		return ans;
 	}
 
 	/**
@@ -81,18 +97,15 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return (sideOne == sideTwo) && (sideTwo == sideThree);
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return ((!isEquilateral()) && (!isScalene()));
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			return (sideOne != sideTwo) && (sideTwo != sideThree) && (sideThree != sideOne);
 		}
 
 	}
@@ -113,8 +126,49 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		HashMap<Character, Integer> scoreMap = new HashMap<Character, Integer>(){{
+			put('A', 1);
+			put('E', 1);
+			put('I', 1);
+			put('O', 1);
+			put('U', 1);
+			put('L', 1);
+			put('N', 1);
+			put('R', 1);
+			put('S', 1);
+			put('T', 1);
+			
+			put('D', 2);
+			put('G', 2);
+			
+			put('B', 3);
+			put('C', 3);
+			put('M', 3);
+			put('P', 3);
+			
+			put('F', 4);
+			put('H', 4);
+			put('V', 4);
+			put('W', 4);
+			put('Y', 4);
+			
+			put('K', 5);
+			
+			put('J', 8);
+			put('X', 8);
+			
+			put('Q', 10);
+			put('Z', 10);
+		}};
+		
+		int score = 0;
+		
+		for (char c : string.toUpperCase().toCharArray()) {
+			score += scoreMap.get(c);
+		}
+		
+		return score;
 	}
 
 	/**
@@ -149,8 +203,19 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String ans = "";
+		
+		for (char c : string.toCharArray()) {
+			if (Character.isDigit(c)) {
+				ans = ans + c;
+			}
+			else if (Character.isLetter(c)) {
+				IllegalArgumentException e = new IllegalArgumentException();
+				throw(e);
+			}
+		}
+		
+		return ans;
 	}
 
 	/**
@@ -163,8 +228,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		Map<String, Integer> countMap = new HashMap<String, Integer>();
+		
+		String[] words = string.split(",\\n|\\n| |, |,");
+		
+		for (String w : words) {
+			if (countMap.containsKey(w)) {
+				countMap.put(w, countMap.get(w) + 1);
+			}
+			else {
+				countMap.put(w,  1);
+			}
+		}
+		
+		return countMap;
 	}
 
 	/**
@@ -203,11 +280,52 @@ public class EvaluationService {
 	 * 
 	 */
 	static class BinarySearch<T> {
+		private static final int NOT_FOUND = -1; // not sure what indication to use, tests dont specify
+		
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			int index = indexOfHelp(t, 0, sortedList.size());
+			
+			/*
+			System.out.println("--------");
+			System.out.println("list is: " + sortedList);
+			System.out.println("t is: " + t);
+			System.out.println("index is: " + index);
+			*/
+			
+			return index;
+		}
+		
+		/**
+		 * Helper method for indexOf - recursively searches through segments of the list
+		 * @param t
+		 * @param start
+		 * @param end // NOT inclusive
+		 * @return
+		 */
+		private int indexOfHelp(T t, int start, int end) {
+			if ((end - start) <= 0) {
+				//System.out.println("    returning not found");
+				return NOT_FOUND;
+			}
+			
+
+			int middle = start + ((end - start) / 2);
+			
+			if (t.equals(sortedList.get(middle))) {
+				//System.out.println("    returning middle");
+				return middle;
+			}
+			// recur
+			int left = indexOfHelp(t, start, middle);
+			if (left != NOT_FOUND) {
+				//System.out.println("    returning left");
+				return left;
+			}
+			int right = indexOfHelp(t, middle + 1, end);
+			//System.out.println("    returning right");
+			return right;
 		}
 
 		public BinarySearch(List<T> sortedList) {
