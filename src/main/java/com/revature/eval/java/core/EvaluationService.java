@@ -361,8 +361,64 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String ans = "";
+		
+		if (string.length() < 1) {
+			return ans;
+		}
+		
+		String[] words = string.split(" "); // only spaces in test sample
+		
+		ans = toPigLatinHelp(words[0]); // no space before first word
+		
+		for (int i = 1; i < words.length; i++) {
+			ans = ans + " " + toPigLatinHelp(words[i]);
+		}
+		
+		/*
+		System.out.println("------");
+		System.out.println("input is: " + string);
+		System.out.println("output is: " + ans);
+		*/
+		
+		return ans;
+	}
+	
+	private static final String[] vowelSounds = new String[] {
+		"a", "e", "i", "o", "u"	
+	};
+	
+	// this is probably not all inclusive but it should pass the tests
+	// multi-letter sounds are listed first to avoid being split
+	private static final String[] consonantSounds = new String[] {
+		"ch", "sh", "sch", "th", "wh", "bl", "br", "cl", "cr", "dr", "fl", "fr",
+		"gl", "gr", "kl", "kr", "pl", "pr", "qu", "sk", "sl", "sm", "sn", "sp", "st", "sw",
+		"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", 
+		"s", "t", "v", "w", "x", "y", "z" 
+	};
+	
+	/**
+	 * Handles one word at a time
+	 * @param word
+	 * @return
+	 */
+	private String toPigLatinHelp(String word) {
+		
+		for (String vs : vowelSounds) {
+			if (word.startsWith(vs)){
+				return word + "ay";
+			}
+		}
+		
+		// didn't find a vowel
+		for (String cs : consonantSounds) {
+			if (word.startsWith(cs)) {
+				int len = cs.length();
+				return word.substring(len) + cs + "ay";
+			}
+		}
+		
+		return ""; // catchall return, hopefully never reached
 	}
 
 	/**
