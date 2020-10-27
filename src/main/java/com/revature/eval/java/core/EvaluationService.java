@@ -437,8 +437,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		// using a String is slow but easy
+		String s = "" + input; // String constructor was giving me issues
+		int numDigits = s.length();
+		
+		int sum = 0;
+		
+		for (int i = 0; i < numDigits; i++) {
+			int d = s.charAt(i) - '0';
+			sum += Math.pow(d, numDigits);
+		}
+		
+		return (sum == input);
 	}
 
 	/**
