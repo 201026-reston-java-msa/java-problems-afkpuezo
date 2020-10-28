@@ -628,12 +628,29 @@ public class EvaluationService {
 	 * If your language provides methods in the standard library to deal with prime
 	 * numbers, pretend they don't exist and implement them yourself.
 	 * 
+	 * ANDREW'S NOTE: This uses the isPrime helper method from a previous problem/solution.
+	 * 
 	 * @param i
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		if (i < 1) {
+			IllegalArgumentException e = new IllegalArgumentException();
+			throw(e);
+		}
+		
+		int numPrimes = 0;
+		int currentPrime = -1; // ignored value
+		
+		for (int n = 2; numPrimes < i; n++) {
+			if (isPrime(n)) {
+				numPrimes++;
+				currentPrime = n;
+			}
+		}
+		
+		// System.out.println(i + " -> " + currentPrime);
+		return currentPrime;
 	}
 
 	/**
