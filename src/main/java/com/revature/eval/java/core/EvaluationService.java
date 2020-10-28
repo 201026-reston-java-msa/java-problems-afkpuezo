@@ -5,6 +5,7 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -862,8 +863,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		ArrayList<Character> unusedLetters = new ArrayList<Character>(
+				Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+								'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));		
+		
+		for (char c : string.toCharArray()) {
+			unusedLetters.remove(new Character(Character.toLowerCase(c)));
+		}
+		
+		return unusedLetters.isEmpty();
 	}
 
 	/**
