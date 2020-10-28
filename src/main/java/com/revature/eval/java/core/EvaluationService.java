@@ -882,6 +882,7 @@ public class EvaluationService {
 	 * @param given
 	 * @return
 	 */
+	// SKIPPED
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
 		return null;
@@ -901,8 +902,37 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		ArrayList<Integer> multiples = new ArrayList<Integer>();
+		
+		for (int n = 1; n < i; n++) {
+			if (isMultiple(n, set)) {
+				multiples.add(n);
+			}
+		} // end outer (n) loop
+		
+		int sum = 0;
+		for (int n = 0; n < multiples.size(); n++) {
+			sum += multiples.get(n);
+		}
+		
+		// System.out.println(i + " and  " + set + " -> " + sum);
+		return sum;
+	}
+	
+	/**
+	 * A helper method - returns true if n is a multiple of any member of set
+	 * @param n
+	 * @param set
+	 * @return
+	 */
+	private boolean isMultiple(int n, int[] set) {
+		for (int s : set) {
+			if (n % s == 0) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	/**
