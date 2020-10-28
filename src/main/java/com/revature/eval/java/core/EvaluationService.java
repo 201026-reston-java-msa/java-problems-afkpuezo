@@ -466,7 +466,6 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long L) {
-		System.out.println("check");
 		List<Long> factors = new ArrayList<Long>();
 		
 		for (long f = 2; f < (L / 2); f++) {
@@ -485,8 +484,7 @@ public class EvaluationService {
 		if (isPrime(L)) {
 			factors.add(L);
 		}
-		
-		System.out.println(L + " -> " + factors);
+	
 		return factors;
 	}
 	
@@ -555,6 +553,10 @@ public class EvaluationService {
 	 */
 	static class RotationalCipher {
 		private int key;
+		private static final char[] ALPHABET = new char[] {
+				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+				'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+		};
 
 		public RotationalCipher(int key) {
 			super();
@@ -562,8 +564,57 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String scrambled = "";
+			
+			for (char c : string.toCharArray()) {
+				if (Character.isLetter(c))
+				{
+					boolean isUpper = Character.isUpperCase(c);
+					c = Character.toLowerCase(c);
+					
+					int index = letterToInt(c) + key;
+					// fix wraparound
+					while (index >= ALPHABET.length) {
+						index -= ALPHABET.length;
+					}
+					
+					c = intToLetter(index);
+					if (isUpper) {
+						c = Character.toUpperCase(c);
+					}
+					scrambled = scrambled + c;
+				}
+				else { // if not a letter, leave it alone
+					scrambled = scrambled + c;
+				}
+			}
+			
+			// System.out.println(string + " -> " + scrambled);
+			return scrambled;
+		}
+		
+		/**
+		 * Helper method (excessive, technically)
+		 * @param n
+		 * @return char
+		 */
+		private char intToLetter(int n) {
+			return ALPHABET[n];
+		}
+		
+		/**
+		 * Helper method, essentially indexOf
+		 * @param c
+		 * @return
+		 */
+		private int letterToInt(char c) {
+			for (int i = 0; i < ALPHABET.length; i++) {
+				if (ALPHABET[i] == c) {
+					return i;
+				}
+			}
+			
+			return -1; // catchall, shouldn't happen
 		}
 
 	}
