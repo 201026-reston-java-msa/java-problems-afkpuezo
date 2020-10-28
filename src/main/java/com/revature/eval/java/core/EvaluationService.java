@@ -990,13 +990,13 @@ public class EvaluationService {
 				digitSum += d;
 			}
 			else if (c != ' ') {
-				System.out.println(string + " ->  false");
+				// System.out.println(string + " ->  false");
 				return false; // invalid char
 			}
 			
 		}
 		
-		System.out.println(string + " -> " + ((digitSum % 10) == 0));
+		// System.out.println(string + " -> " + ((digitSum % 10) == 0));
 		return (digitSum % 10) == 0;
 	}
 
