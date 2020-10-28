@@ -598,7 +598,7 @@ public class EvaluationService {
 		 * @param n
 		 * @return char
 		 */
-		private char intToLetter(int n) {
+		private static char intToLetter(int n) {
 			return ALPHABET[n];
 		}
 		
@@ -607,7 +607,7 @@ public class EvaluationService {
 		 * @param c
 		 * @return
 		 */
-		private int letterToInt(char c) {
+		private static int letterToInt(char c) {
 			for (int i = 0; i < ALPHABET.length; i++) {
 				if (ALPHABET[i] == c) {
 					return i;
@@ -675,9 +675,16 @@ public class EvaluationService {
 	 * 
 	 * Examples Encoding test gives gvhg Decoding gvhg gives test Decoding gsvjf
 	 * rxpyi ldmul cqfnk hlevi gsvoz abwlt gives thequickbrownfoxjumpsoverthelazydog
+	 * 
+	 * ANDREW'S NOTE: This solution re-uses some code from the earlier cipher problem.
 	 *
 	 */
 	static class AtbashCipher {
+		
+		private static final char[] ALPHABET = new char[] {
+				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+				'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+		};
 
 		/**
 		 * Question 13
@@ -686,8 +693,30 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String message = "";
+			int letterSpaceCount = 0; // insert a space every 5 letters
+			
+			for (char c : string.toCharArray()) {
+				if (Character.isLetter(c)) {
+					message = message + invertLetter(Character.toLowerCase(c));
+					letterSpaceCount++; 
+					if (letterSpaceCount == 5) { // insert a space every 5 letters
+						message = message + " ";
+						letterSpaceCount = 0;
+					}
+				}
+				else if (Character.isDigit(c)) {
+					message = message + c;
+					letterSpaceCount++; 
+					if (letterSpaceCount == 5) { // insert a space every 5 letters
+						message = message + " ";
+						letterSpaceCount = 0;
+					}
+				}
+			}
+			
+			// System.out.println(string + " -> " + message);
+			return message;
 		}
 
 		/**
@@ -697,8 +726,56 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String message = "";
+			
+			for (char c : string.toCharArray()) {
+				if (Character.isLetter(c)) {
+					message = message + invertLetter(c);
+				}
+				else if (Character.isDigit(c)) {
+					message = message + c;
+				}
+			}
+			
+			// System.out.println(string + " -> " + message);
+			return message;
+		}
+		
+		/**
+		 * A helper method that encodes/decodes a single letter.
+		 * 
+		 * @param c: A lowercase letter
+		 * @return the 'inverse' letter (eg, a -> z)
+		 */
+		private static char invertLetter(char c) {
+			
+			int index = letterToInt(c);
+			
+			return intToLetter(ALPHABET.length - index - 1);
+		}
+		
+		/**
+		 * Helper method (excessive, technically)
+		 * @param n
+		 * @return char
+		 */
+		private static char intToLetter(int n) {
+			return ALPHABET[n];
+		}
+		
+		/**
+		 * Helper method, essentially indexOf
+		 * @param c
+		 * @return
+		 */
+		private static int letterToInt(char c) {
+			for (int i = 0; i < ALPHABET.length; i++) {
+				if (ALPHABET[i] == c) {
+					return i;
+				}
+			}
+			
+			return -1; // catchall, shouldn't happen
 		}
 	}
 
