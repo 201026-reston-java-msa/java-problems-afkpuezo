@@ -1028,8 +1028,35 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		// System.out.println("check: " + string);
+		String[] tokens = string.split(" ");
+		int a = Integer.parseInt(tokens[2]); // assume position based on format
+		//remove ? from second number
+		String bTemp = tokens[tokens.length - 1];
+		bTemp = bTemp.substring(0, bTemp.length() - 1);
+		int b = Integer.parseInt(bTemp);
+		
+		
+		String operator = tokens[3].toLowerCase(); // don't need the 'by'
+		int ans = 0;
+		
+		switch (operator) {
+			case "plus":
+				ans = a + b;
+				break;
+			case "minus":
+				ans = a - b;
+				break;
+			case "multiplied":
+				ans = a * b;
+				break;
+			case "divided":
+				ans = a / b;
+				break;
+		}
+		
+		// System.out.println(string + " -> " + ans);
+		return ans;
 	}
 
 }
