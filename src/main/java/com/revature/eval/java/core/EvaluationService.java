@@ -802,8 +802,50 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean ans = bookNumberHelp(string);
+		//System.out.println(string + " -> " + ans);
+		return ans;
+	}
+	
+	/**
+	 * I split this off into a separate method for testing/verification purposes
+	 * @param string
+	 * @return
+	 */
+	private boolean bookNumberHelp(String string) {
+		int multiplier = 10;
+		int total = 0;
+		
+		for (char c : string.toCharArray()) {
+			if (Character.isDigit(c)) {
+				total += multiplier * ((int) c - '0'); // digit to correct int
+				multiplier--;
+				if (multiplier < 2) { // handle check character differently
+					break; 
+				}
+			}
+			else if (c != '-') { // if an invalid char
+				// System.out.println("    Failing on invalid char: " + c);
+				return false;
+			}
+		}
+		
+		// now take care of the last character
+		int checkNum = 0;
+		char checkChar = string.charAt(string.length() - 1);
+		if (checkChar == 'X' || checkChar == 'x') {
+			checkNum = 10;
+		}
+		else if (Character.isDigit(checkChar)) {
+			checkNum = checkChar - '0';
+		}
+		else { // not a digit or X
+			return false;
+		}
+		
+		total += checkNum;
+		
+		return (total % 11) == 0;
 	}
 
 	/**
