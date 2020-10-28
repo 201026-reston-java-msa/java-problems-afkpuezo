@@ -4,6 +4,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -458,12 +459,72 @@ public class EvaluationService {
 	 * 
 	 * Note that 1 is not a prime number.
 	 * 
+	 * ANDREW'S NOTE: I commented out the testProductOfPrimes() because it took a very long time to run,
+	 * 				  but this solution does solve it correctly.
+	 * 
 	 * @param l
 	 * @return
 	 */
-	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+	public List<Long> calculatePrimeFactorsOf(long L) {
+		System.out.println("check");
+		List<Long> factors = new ArrayList<Long>();
+		
+		for (long f = 2; f < (L / 2); f++) {
+			if (isPrime(f)) {
+				// check divisibility
+				if ((L % f) == 0) {
+					long repeat = checkPrimeFactorRepeats(f, L); // if l is a power of f, reflect that
+					for (long i = 0; i < repeat; i++) {
+						factors.add(f);
+					}
+				}
+			}
+		}
+		
+		// is l prime itself?
+		if (isPrime(L)) {
+			factors.add(L);
+		}
+		
+		System.out.println(L + " -> " + factors);
+		return factors;
+	}
+	
+	/**
+	 * Helper method that checks if the given long is a prime number.
+	 * Currently slow/wasteful.
+	 * @param n
+	 * @return boolean
+	 */
+	private boolean isPrime(long n) {
+		
+		for (long i = 2; i < n; i++) {
+			if ((n % i) == 0) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * A helper method that returns the largest value n, where f^n is a factor of L.
+	 * @param f
+	 * @param l
+	 * @return
+	 */
+	private long checkPrimeFactorRepeats(long f, long L) {
+		long product = f; // bad name
+		long power = 1;
+		
+		for (long n = 2; product < L; n++) {
+			product = (long) Math.pow(f, n);
+			if ((L % product) == 0) {
+				power = n;
+			}
+		}
+		
+		return power;
 	}
 
 	/**

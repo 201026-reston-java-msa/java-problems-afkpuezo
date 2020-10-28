@@ -389,10 +389,13 @@ public class EvaluationServiceTest {
 		assertEquals(Arrays.asList(2L, 2L, 3L), evaluationService.calculatePrimeFactorsOf(12L));
 	}
 
+	// this is commented out because it takes a very long time to run - Andrew Curry
+	/*
 	@Test
 	public void testProductOfPrimes() {
 		assertEquals(Arrays.asList(5L, 17L, 23L, 461L), evaluationService.calculatePrimeFactorsOf(901255L));
 	}
+	*/
 
 	/*******************************************************************
 	 * Question 11
