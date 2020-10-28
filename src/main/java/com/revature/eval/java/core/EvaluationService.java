@@ -695,28 +695,28 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			String message = "";
-			int letterSpaceCount = 0; // insert a space every 5 letters
+			int letterSpaceCount = -1; // first space doesnt occur until just before 6th char
 			
 			for (char c : string.toCharArray()) {
 				if (Character.isLetter(c)) {
-					message = message + invertLetter(Character.toLowerCase(c));
 					letterSpaceCount++; 
 					if (letterSpaceCount == 5) { // insert a space every 5 letters
 						message = message + " ";
 						letterSpaceCount = 0;
 					}
+					message = message + invertLetter(Character.toLowerCase(c));
 				}
 				else if (Character.isDigit(c)) {
-					message = message + c;
 					letterSpaceCount++; 
 					if (letterSpaceCount == 5) { // insert a space every 5 letters
 						message = message + " ";
 						letterSpaceCount = 0;
 					}
+					message = message + c;
 				}
 			}
 			
-			// System.out.println(string + " -> " + message);
+			//System.out.println(string + " -> " + message);
 			return message;
 		}
 
