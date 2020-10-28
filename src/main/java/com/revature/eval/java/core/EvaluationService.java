@@ -217,6 +217,12 @@ public class EvaluationService {
 			}
 		}
 		
+		if (ans.length() > 11) {
+			IllegalArgumentException e = new IllegalArgumentException();
+			throw(e);
+		}
+		
+		// System.out.println(string + " -> " + ans);
 		return ans;
 	}
 
