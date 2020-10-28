@@ -972,8 +972,32 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		int digitSum = 0;
+		boolean everyOther = false; // could be an int i guess
+		
+		for (int i = string.length() - 1; i >= 0; i--) {
+			char c = string.charAt(i);
+			if (Character.isDigit(c)) {
+				int d = c - '0';
+				if (everyOther){
+					// handle doubling
+					d *= 2;
+					if (d > 9) {
+						d -= 9;
+					}
+				}
+				everyOther = !everyOther;
+				digitSum += d;
+			}
+			else if (c != ' ') {
+				System.out.println(string + " ->  false");
+				return false; // invalid char
+			}
+			
+		}
+		
+		System.out.println(string + " -> " + ((digitSum % 10) == 0));
+		return (digitSum % 10) == 0;
 	}
 
 	/**
